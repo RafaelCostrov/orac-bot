@@ -1,0 +1,4 @@
+.env
+docs/
+*.json
+__pycache__/
