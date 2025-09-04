@@ -5,19 +5,18 @@ from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+import json
 
 
 load_dotenv()
-base_dir = os.path.dirname(os.path.abspath(__file__))
-credentials_filename = os.getenv("SERVICE_ACCOUNT_FILE")
-SERVICE_ACCOUNT_FILE = os.path.join(base_dir, credentials_filename)
+info = os.getenv('SERVICE_ACCOUNT_FILE')
+creds_json = json.loads(info)
 SCOPES = os.getenv('SCOPES_EMAIL').split(',')
 EMAIL_USER = os.getenv('EMAIL_USER')
 TEMPLATE_PATH = os.getenv('TEMPLATE_PATH')
 
-credentials = service_account.Credentials.from_service_account_file(
-    SERVICE_ACCOUNT_FILE, scopes=SCOPES
-).with_subject(EMAIL_USER)
+credentials = service_account.Credentials.from_service_account_info(
+    creds_json, scopes=SCOPES, subject=EMAIL_USER)
 service = build('gmail', 'v1', credentials=credentials)
 
 
