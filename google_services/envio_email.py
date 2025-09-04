@@ -13,7 +13,8 @@ info = os.getenv('SERVICE_ACCOUNT_FILE')
 creds_json = json.loads(info)
 SCOPES = os.getenv('SCOPES_EMAIL').split(',')
 EMAIL_USER = os.getenv('EMAIL_USER')
-TEMPLATE_PATH = os.getenv('TEMPLATE_PATH')
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+TEMPLATE_PATH = os.path.join(BASE_DIR, "email", "extratos.html")
 
 credentials = service_account.Credentials.from_service_account_info(
     creds_json, scopes=SCOPES, subject=EMAIL_USER)
