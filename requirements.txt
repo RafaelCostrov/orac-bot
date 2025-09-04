@@ -1,0 +1,9 @@
+flask
+flask-cors
+python-dotenv
+langchain
+langchain-google-genai
+pydantic
+google-auth
+google-api-python-client
+pdf2image
