@@ -1,17 +1,26 @@
 import base64
-from pdf2image import convert_from_path
+import fitz
 from io import BytesIO
+from PIL import Image
 
 
 def pdf_to_base64_images(pdf_path, dpi=200):
-    poppler_path = r"C:\Users\rafae\Downloads\Release-24.08.0-0\poppler-24.08.0\Library\bin"
-    pages = convert_from_path(pdf_path, dpi=dpi, poppler_path=poppler_path)
-
+    doc = fitz.open(pdf_path)
     base64_images = []
-    for image in pages:
+
+    for page in doc:
+        zoom = dpi / 72
+        mat = fitz.Matrix(zoom, zoom)
+
+        pix = page.get_pixmap(matrix=mat)
+
+        img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
+
         buffer = BytesIO()
-        image.save(buffer, format="JPEG")
+        img.save(buffer, format="JPEG", quality=80)
         buffer.seek(0)
-        encoded = base64.b64encode(buffer.read()).decode('utf-8')
+
+        encoded = base64.b64encode(buffer.read()).decode("utf-8")
         base64_images.append(encoded)
+
     return base64_images
