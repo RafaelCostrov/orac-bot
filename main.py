@@ -3,9 +3,14 @@ from orquestrador.orquestrador import AgenteOrquestrador
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
+from dotenv import load_dotenv
 
 app = Flask(__name__)
-CORS(app, resources={r"/orac-ia": {"origins": "http://localhost:5173"}})
+# CORS(app, resources={r"/orac-ia": {"origins": "http://10.10.10.47:5173"}})
+CORS(app)
+
+load_dotenv()
+SENHA_API = os.getenv('SENHA_API')
 
 
 @app.route("/orac-ia", methods=['POST'])
@@ -14,8 +19,13 @@ def main():
         pergunta = request.form.get("mensagem")
         nome_usuario = request.form.get("nome_usuario")
         email = request.form.get("email")
+        senha = request.form.get("senha")
         arquivo = request.files.get("arquivo")
-        print(f"{nome_usuario} - {email}")
+
+        if senha != SENHA_API:
+            return jsonify({
+                "erro": "Senha incorreta."
+            }), 403
 
         if arquivo:
             nome_arquivo = arquivo.filename
@@ -27,10 +37,6 @@ def main():
             resp: {nome_usuario}
             email: {email}
             """
-        else:
-            print("Nenhum arquivo recebido.")
-
-        pergunta += f"\n\nLembrando que você irá responder em um chat **HTML**, então não use markdown para formatação, se quiser use elementos HTML\n"
 
         agente = AgenteOrquestrador()
         orquestrador = AgentExecutor(
@@ -54,4 +60,4 @@ def main():
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host="0.0.0.0", port=5000, debug=True)

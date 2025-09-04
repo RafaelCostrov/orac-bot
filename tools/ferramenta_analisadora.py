@@ -71,6 +71,10 @@ class FerramentaAnalisadora(BaseTool):
                     pode retornar. Se não possuir nada acima, **não** retorne nada como título.
                     - Se encontrar alguma página que não possui tabelas, **retorne "Não há tabelas"** 
                     - Qualquer célula vazia encontrada, deve continuar vazia, não coloque "-" para mostrar que estar vazio.
+                    - Lembrar-se que alguns bancos abreviam a palavra "SALDO" para "SDO", então se começar tanto com "SDO" quanto "SALDO"
+                    considerar para o campo de saldo.
+                    - Sempre que um valor vier com um sinal negativo "-" tanto do lado direito do número, quanto no esquerdo, **considerar**
+                    como crédito.
                     - Células conjuntas as vezes vem separadas em duas linhas, porém sem uma divisão de linhas entre elas. Sempre que isso acontecer,
                     considerar como se fosse na mesma célula. **Não deixe expressões vazias como:**
                     | CONSIGAZ CILINDROS LTDA | | | | |
@@ -175,19 +179,19 @@ class FerramentaAnalisadora(BaseTool):
         resposta_final = cadeia_final.invoke(
             {"resposta_cadeia": resposta_cadeia_extrator})
 
-        with open("resumo_extrato.txt", "w", encoding="utf-8") as file:
+        with open(f"{caminho_pdf.replace(".pdf", "")}.txt", "w", encoding="utf-8") as file:
             file.write(resposta_final)
 
         time.sleep(2)
 
-        link = salvar_drive(caminho_arquivo="resumo_extrato.txt",
-                            resp=responsavel, nome_arquivo="resumo_extrato.txt")
+        link = salvar_drive(caminho_arquivo=f"{caminho_pdf.replace(".pdf", "")}.txt",
+                            resp=responsavel, nome_arquivo=f"{caminho_pdf.replace(".pdf", "")}.txt")
 
         time.sleep(1)
 
         email = enviar(destinatario=email_destino,
-                       assunto="Extrato Solicitado 📄", link=link)
+                       assunto=f"Extrato Solicitado 📄 - {caminho_pdf.replace(".pdf", "")}", link=link)
 
-        os.remove("resumo_extrato.txt")
+        os.remove(f"{caminho_pdf.replace(".pdf", "")}.txt")
 
         return f"Resumo gerado com sucesso. 😁</br> Foi enviado no email 📧: </br> <b>{email}</b>"
