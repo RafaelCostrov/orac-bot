@@ -7,4 +7,6 @@ pydantic
 google-auth
 google-api-python-client
 pdf2image
+pinecone-client
+pymupdf
 gunicorn
