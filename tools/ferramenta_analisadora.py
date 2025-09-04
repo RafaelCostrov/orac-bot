@@ -73,8 +73,8 @@ class FerramentaAnalisadora(BaseTool):
                     - Qualquer célula vazia encontrada, deve continuar vazia, não coloque "-" para mostrar que estar vazio.
                     - Lembrar-se que alguns bancos abreviam a palavra "SALDO" para "SDO", então se começar tanto com "SDO" quanto "SALDO"
                     considerar para o campo de saldo.
-                    - Sempre que um valor vier com um sinal negativo "-" tanto do lado direito do número, quanto no esquerdo, **considerar**
-                    como crédito.
+                    - Sempre que um valor vier com um sinal negativo "-" tanto do lado direito do número, quanto no esquerdo 
+                    (MESMO SE TIVER R$ ENTRE O SINAL E O VALOR), **considerar** como crédito.
                     - Células conjuntas as vezes vem separadas em duas linhas, porém sem uma divisão de linhas entre elas. Sempre que isso acontecer,
                     considerar como se fosse na mesma célula. **Não deixe expressões vazias como:**
                     | CONSIGAZ CILINDROS LTDA | | | | |
