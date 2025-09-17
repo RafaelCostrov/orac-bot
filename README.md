@@ -11,7 +11,6 @@ Principais funcionalidades:
 - **Organização e compartilhamento de arquivos** no Google Drive.
 - **Envio automático de e-mails** com resultados e links para download.
 
----
 
 ## Ferramentas utilizadas
 
@@ -23,7 +22,6 @@ Principais funcionalidades:
 ![Gmail](https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white)
 ![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
 
----
 
 ## Passo a passo da automação
 
@@ -59,7 +57,6 @@ O arquivo main.py é o ponto de entrada da aplicação, expondo uma API Flask qu
 7. **Consulta de informações de CNPJ**:
    - Busca dados diretamente da ReceitaWS e retorna informações detalhadas em HTML.
 
----
 
 ## Funções Auxiliares
 
